@@ -1,0 +1,33 @@
+.dark-mode {
+
+    background-color: #121212;
+
+    color: white;
+
+}
+
+.dark-mode .card {
+
+    background-color: #1e1e1e;
+
+    color: white;
+
+}
+
+.dark-mode .table {
+
+    color: white !important;
+
+}
+
+.dark-mode .table th {
+
+    color: white !important;
+
+}
+
+.dark-mode .table td {
+
+    color: white !important;
+
+}

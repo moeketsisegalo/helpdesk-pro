@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Update Ticket
+</h2>
+
+<div class="card">
+
+    <div class="card-body">
+
+        <h4>
+            {{ ticket.title }}
+        </h4>
+
+        <p>
+            {{ ticket.description }}
+        </p>
+
+        <hr>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button
+                class="btn btn-success">
+
+                Update Status
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

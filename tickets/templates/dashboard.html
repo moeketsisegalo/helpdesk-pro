@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Dashboard
+</h2>
+
+<!-- Statistics Cards -->
+
+<div class="row">
+
+    <div class="col-md-3">
+
+        <div class="card border-dark shadow-sm">
+
+            <div class="card-body">
+
+                <h5>
+                    Total Tickets
+                </h5>
+
+                <h1>
+                    {{ total_tickets }}
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-warning shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="text-warning">
+                    Open Tickets
+                </h5>
+
+                <h1>
+                    {{ open_tickets }}
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-primary shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="text-primary">
+                    In Progress
+                </h5>
+
+                <h1>
+                    {{ in_progress }}
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card border-success shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="text-success">
+                    Closed
+                </h5>
+
+                <h1>
+                    {{ closed_tickets }}
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Welcome Banner -->
+
+<div class="card shadow-sm mt-4">
+
+    <div class="card-body text-center">
+
+        <img src="{% static 'images/logo2.png' %}"
+             alt="HelpDesk Pro"
+             class="img-fluid mb-3"
+             style="max-width:180px;">
+
+        <h3>
+            Welcome Back, {{ request.user.username }} 👋
+        </h3>
+
+        <p class="text-muted">
+            Track Issues. Deliver Solutions.
+        </p>
+
+    </div>
+
+</div>
+
+<!-- Chart -->
+
+<div class="row mt-4">
+
+    <div class="col-md-12">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="mb-3">
+
+                    Ticket Status Overview
+
+                </h5>
+
+                <canvas id="statusChart"></canvas>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Recent Tickets -->
+
+<div class="row mt-4">
+
+    <div class="col-md-12">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="mb-3">
+
+                    Recent Tickets
+
+                </h5>
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Title</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for ticket in recent_tickets %}
+
+                        <tr>
+
+                            <td>
+                                {{ ticket.title }}
+                            </td>
+
+                            <td>
+                                {{ ticket.priority }}
+                            </td>
+
+                            <td>
+
+                                {% if ticket.status == 'Open' %}
+
+                                    <span class="badge bg-warning text-dark">
+
+                                        Open
+
+                                    </span>
+
+                                {% elif ticket.status == 'In Progress' %}
+
+                                    <span class="badge bg-primary">
+
+                                        In Progress
+
+                                    </span>
+
+                                {% elif ticket.status == 'Closed' %}
+
+                                    <span class="badge bg-success">
+
+                                        Closed
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const openTickets = {{ open_tickets }};
+const inProgress = {{ in_progress }};
+const closedTickets = {{ closed_tickets }};
+
+const ctx = document.getElementById('statusChart');
+
+new Chart(ctx, {
+
+    type: 'bar',
+
+    data: {
+
+        labels: [
+            'Open',
+            'In Progress',
+            'Closed'
+        ],
+
+        datasets: [{
+
+            label: 'Tickets',
+
+            data: [
+                openTickets,
+                inProgress,
+                closedTickets
+            ],
+
+            borderWidth: 1
+
+        }]
+    },
+
+    options: {
+
+        responsive: true,
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true
+
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+{% endblock %}

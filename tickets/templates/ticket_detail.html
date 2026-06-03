@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">
+    Ticket Details
+</h2>
+
+<div class="card">
+
+    <div class="card-body">
+
+        <h4>
+            {{ ticket.title }}
+        </h4>
+
+        <hr>
+
+        <p>
+            <strong>Description:</strong>
+        </p>
+
+        <p>
+            {{ ticket.description }}
+        </p>
+
+        <p>
+            <strong>Priority:</strong>
+            {{ ticket.priority }}
+        </p>
+
+        <p>
+            <p>
+
+                <strong>Status:</strong>
+            
+                {% if ticket.status == 'Open' %}
+            
+                    <span class="badge bg-warning text-dark">
+            
+                        Open
+            
+                    </span>
+            
+                {% elif ticket.status == 'In Progress' %}
+            
+                    <span class="badge bg-primary">
+            
+                        In Progress
+            
+                    </span>
+            
+                {% elif ticket.status == 'Closed' %}
+            
+                    <span class="badge bg-success">
+            
+                        Closed
+            
+                    </span>
+            
+                {% endif %}
+            
+            </p>
+        </p>
+
+        <p>
+            <strong>Created:</strong>
+            {{ ticket.created_at|date:"d M Y H:i" }}
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
